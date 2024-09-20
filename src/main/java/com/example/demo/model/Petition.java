@@ -9,22 +9,30 @@ public class Petition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
     private String description;
+    private String location;
 
     @ManyToOne
     @JoinColumn(name = "farmer_id")
     private Farmer farmer;
+
+    private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "inspector_id")
+    private Inspector inspector;
 
     // Default constructor
     public Petition() {
     }
 
     // Parameterized constructor
-    public Petition(String title, String description, Farmer farmer) {
-        this.title = title;
+    public Petition(String description, String location, Farmer farmer, String status, Inspector inspector) {
         this.description = description;
+        this.location = location;
         this.farmer = farmer;
+        this.status = status;
+        this.inspector = inspector;
     }
 
     // Getters and Setters
@@ -36,20 +44,20 @@ public class Petition {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Farmer getFarmer() {
@@ -60,13 +68,31 @@ public class Petition {
         this.farmer = farmer;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Inspector getInspector() {
+        return inspector;
+    }
+
+    public void setInspector(Inspector inspector) {
+        this.inspector = inspector;
+    }
+
     @Override
     public String toString() {
         return "Petition{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
                 ", farmer=" + farmer +
+                ", status='" + status + '\'' +
+                ", inspector=" + inspector +
                 '}';
     }
 }
