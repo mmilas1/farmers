@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173") // to match frontend port
 @RestController
 @RequestMapping("/api/farmers")
 public class FarmerController {
@@ -23,14 +26,19 @@ public class FarmerController {
     }
 
     @PostMapping
-    public ResponseEntity<Farmer> createFarmer(@RequestBody Farmer farmer) {
+    public ResponseEntity<Object> createFarmer(@RequestBody Farmer farmer) {
         try {
             Farmer savedFarmer = farmerService.saveFarmer(farmer);
             return new ResponseEntity<>(savedFarmer, HttpStatus.CREATED);
         } catch (Exception e) {
-            // Log the exception (optional, depending on your logging setup)
-            // e.g., logger.error("Error creating farmer", e);
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            // Log the exception for debugging
+
+            // Return a meaningful error message
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error creating farmer. Please check the data and try again.");
+            errorResponse.put("error", e.getMessage()); // Optionally include the exception message
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
 }
