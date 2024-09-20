@@ -13,12 +13,12 @@ import java.util.List;
 public class Farmer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Correct usage of GenerationType.IDENTITY
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
     private String name;
     private String email;
-    private String password; // We'll secure this with Spring Security
+    private String password; 
 
     @OneToMany(mappedBy = "farmer")
     private List<Petition> petitions;
