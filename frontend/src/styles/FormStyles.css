@@ -1,0 +1,56 @@
+/* General container styling */
+.home-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center the menu */
+  align-items: center;     /* Horizontally center the content */
+  background-color:greenyellow;
+  color: #fff;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  position: absolute;
+  top: 250px;
+  width: 550px;              /* Adjust the size of your logo */
+  height: auto;
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+}
+
+/* Welcome message styling */
+.welcome-text {
+  margin-top: 85px;
+  position: absolute;
+  top: 20px;               /* Keep it at the top */
+  left: 50%;               /* Center horizontally */
+  transform: translateX(-50%); /* Correct horizontal centering */
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Menu styling */
+.menu-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 40px;
+  text-align: center; /* Center the menu items */
+}
+
+.menu-list li {
+  margin: 10px 0;
+}
+
+.menu-list a {
+  text-decoration: none;
+  color: #00f;
+  font-size: 1.5rem;
+}
+
+.menu-list a:hover {
+  text-decoration: underline;
+}
