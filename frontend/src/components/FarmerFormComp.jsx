@@ -2,33 +2,31 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/FormStyles.css'
 
-const FarmerFormComp = () => {
+const FarmerFormComp = ({ onAddFarmer }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!name || !email || !password) {
+            setError('All fields are required');
+            return;
+        }
         try {
-            const credentials = { username: 'admin@example.com', password: 'adminpassword' };
-            // Sending the POST request to the backend with Basic Auth credentials
-            await axios.post('http://localhost:8080/api/farmers', 
-                { name, email, password }, 
-                {
-                    auth: {
-                        username: credentials.username,
-                        password: credentials.password
-                    }
-                }
+            const response = await axios.post('http://localhost:8080/api/farmers',
+                { name, email, password }
             );
             alert('Farmer registered successfully!');
-            // Optionally reset the form after a successful submission
+            onAddFarmer(response.data); // Passing the newly added farmer to the parent component
             setName('');
             setEmail('');
             setPassword('');
+            setError('');
         } catch (error) {
             console.error('Error registering farmer', error);
-            alert('Failed to register farmer. Please check your credentials.');
+            setError('Failed to register farmer.');
         }
     };
 
@@ -46,6 +44,7 @@ const FarmerFormComp = () => {
                 Password:
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </label>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <button type="submit">Register Farmer</button>
         </form>
     );
