@@ -9,16 +9,19 @@ const Navbar = () => {
                     <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <Link to="/farmers">Farmers</Link>
-                </li>
-                <li>
                     <Link to="/login">Login</Link>
                 </li>
                 <li>
-                    <Link to="/petitions">Petitions</Link>
+                    <Link to="/inspectors">Inspector Registration</Link>
                 </li>
                 <li>
-                    <Link to="/inspectors">Inspectors</Link> 
+                    <Link to="/farmers">Farmers</Link>
+                </li>
+                <li>
+                    <Link to="/petitions">Submit New Petition</Link>
+                </li>
+                <li>
+                    <Link to="/inspectors/petitions">Petitions</Link>
                 </li>
             </ul>
         </nav>
