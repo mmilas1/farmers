@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum Role {
-    FARMER("Farmer"),
-    INSPECTOR("Inspector");
+    FARMER("FARMER"),
+    INSPECTOR("INSPECTOR");
 
     private final String roleName;
 

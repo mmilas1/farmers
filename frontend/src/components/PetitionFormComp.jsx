@@ -32,17 +32,9 @@ const PetitionFormComp = () => {
         }
 
         try {
-            const credentials = { username: 'admin@example.com', password: 'adminpassword' };
-
             await axios.post(
                 'http://localhost:8080/api/petitions',
-                { description, location, farmerId },
-                {
-                    auth: {
-                        username: credentials.username,
-                        password: credentials.password
-                    }
-                }
+                { description, location, farmerId }
             );
 
             alert('Petition submitted successfully!');

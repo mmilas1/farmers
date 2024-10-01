@@ -15,15 +15,8 @@ const FarmerFormComp = ({ onAddFarmer }) => {
             return;
         }
         try {
-            const credentials = { username: 'admin@example.com', password: 'adminpassword' };
             const response = await axios.post('http://localhost:8080/api/farmers',
-                { name, email, password },
-                {
-                    auth: {
-                        username: credentials.username,
-                        password: credentials.password
-                    }
-                }
+                { name, email, password }
             );
             alert('Farmer registered successfully!');
             onAddFarmer(response.data); // Passing the newly added farmer to the parent component

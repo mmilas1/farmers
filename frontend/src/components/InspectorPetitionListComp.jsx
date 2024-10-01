@@ -9,14 +9,7 @@ const InspectorPetitionListComp = () => {
     useEffect(() => {
         const fetchPetitions = async () => {
             try {
-                const credentials = { username: 'admin@example.com', password: 'adminpassword' };
-                
-                const response = await axios.get('http://localhost:8080/api/petitions', {
-                    auth: {
-                        username: credentials.username,
-                        password: credentials.password
-                    }
-                });
+                const response = await axios.get('http://localhost:8080/api/petitions')
                 setPetitions(response.data);
             } catch (error) {
                 console.error('Error fetching petitions', error);

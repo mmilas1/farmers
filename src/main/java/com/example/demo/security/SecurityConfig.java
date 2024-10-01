@@ -1,32 +1,38 @@
 package com.example.demo.security;
 
+import com.example.demo.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for simplicity
-            .authorizeHttpRequests(authz -> authz
+            .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**").permitAll() // Allow H2 Database console access
-                .requestMatchers("/api/auth/login", "/api/auth/farmers/**").permitAll() // Permit login and registration
+                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/farmers", "/api/inspectors").permitAll() // Permit login and registration for farmers and inspectors
+                .requestMatchers(HttpMethod.GET, "/api/inspectors/petitions").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/farmers").permitAll()
                 .anyRequest().authenticated() // Secure everything else
             )
             .httpBasic(Customizer.withDefaults()) // Use basic auth
@@ -39,19 +45,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        // Set up in-memory user details for testing
-        UserDetails user = User.withUsername("admin@example.com")
-                .password("{noop}adminpassword") // NoOp password encoder for simplicity
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder)
+        throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .userDetailsService(customUserDetailsService)
+            .passwordEncoder(passwordEncoder)
+            .and()
+            .build();
     }
 }

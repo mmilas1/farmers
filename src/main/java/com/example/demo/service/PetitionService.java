@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dtos.PetitionDto;
 import com.example.demo.model.Farmer;
+import com.example.demo.model.Inspector;
 import com.example.demo.model.Petition;
 import com.example.demo.repository.FarmerRepository;
 import com.example.demo.repository.PetitionRepository;
@@ -38,11 +39,12 @@ public class PetitionService {
 
     // Approve a petition
     @Transactional
-    public Petition approvePetition(Long id) {
+    public Petition approvePetition(Long id, Inspector inspector) {
         Optional<Petition> optionalPetition = petitionRepository.findById(id);
         if (optionalPetition.isPresent()) {
             Petition petition = optionalPetition.get();
             petition.setStatus(APPROVED.toString());
+            petition.setInspector(inspector);
             return petitionRepository.save(petition);
         } else {
             throw new EntityNotFoundException("Petition not found.");

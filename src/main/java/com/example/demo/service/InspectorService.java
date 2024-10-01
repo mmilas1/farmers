@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.Role;
+import com.example.demo.dtos.InspectorDto;
+import com.example.demo.model.Farmer;
 import com.example.demo.model.Inspector;
 import com.example.demo.repository.InspectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,16 @@ public class InspectorService {
     /**
      * Registers a new inspector.
      * 
-     * @param inspector The inspector to be registered.
+     * @param inspectorDto The inspector to be registered.
      * @return The saved inspector entity.
      */
     @Transactional
-    public Inspector registerInspector(Inspector inspector) {
-        inspector.setRole(Role.INSPECTOR); //Setting the role during registration of inspector
+    public Inspector registerInspector(InspectorDto inspectorDto, String encodedPassword) {
+        Inspector inspector = new Inspector();
+        inspector.setName(inspectorDto.getName());
+        inspector.setEmail(inspectorDto.getEmail());
+        inspector.setPassword(encodedPassword); // Use the encoded password
+        inspector.setRole(Role.INSPECTOR); // Setting the role during registration of farmer
         return inspectorRepository.save(inspector);
     }
 
