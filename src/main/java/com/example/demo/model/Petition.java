@@ -1,8 +1,22 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Petition {
 
     @Id
@@ -14,6 +28,7 @@ public class Petition {
 
     @ManyToOne
     @JoinColumn(name = "farmer_id")
+    @JsonBackReference
     private Farmer farmer;
 
     private String status;
@@ -22,77 +37,20 @@ public class Petition {
     @JoinColumn(name = "inspector_id")
     private Inspector inspector;
 
-    // Default constructor
-    public Petition() {
-    }
+    public enum Status {
+        PENDING("Pending"),
+        APPROVED("Approved"),
+        REJECTED("Rejected");
 
-    // Parameterized constructor
-    public Petition(String description, String location, Farmer farmer, String status, Inspector inspector) {
-        this.description = description;
-        this.location = location;
-        this.farmer = farmer;
-        this.status = status;
-        this.inspector = inspector;
-    }
+        private final String status;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+        Status(String status) {
+            this.status = status;
+        }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Farmer getFarmer() {
-        return farmer;
-    }
-
-    public void setFarmer(Farmer farmer) {
-        this.farmer = farmer;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Inspector getInspector() {
-        return inspector;
-    }
-
-    public void setInspector(Inspector inspector) {
-        this.inspector = inspector;
-    }
-
-    @Override
-    public String toString() {
-        return "Petition{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", location='" + location + '\'' +
-                ", farmer=" + farmer +
-                ", status='" + status + '\'' +
-                ", inspector=" + inspector +
-                '}';
+        @Override
+        public String toString() {
+            return this.status;
+        }
     }
 }

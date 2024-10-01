@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.dtos.PetitionDto;
 import com.example.demo.model.Petition;
 import com.example.demo.service.PetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,13 @@ public class PetitionController {
     public ResponseEntity<List<Petition>> getAllPetitions() {
         List<Petition> petitions = petitionService.getAllPetitions();
         return ResponseEntity.ok(petitions);
+    }
+
+    // Create a petition
+    @PostMapping
+    public ResponseEntity<Petition> createPetition(@RequestBody PetitionDto petition) {
+        Petition createdPetition = petitionService.createPetition(petition);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPetition);
     }
 
     // Approve a petition

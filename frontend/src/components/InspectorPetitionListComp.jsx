@@ -63,7 +63,7 @@ const InspectorPetitionListComp = () => {
                         <p><strong>Location:</strong> {petition.location}</p>
                         <p><strong>Status:</strong> {petition.status}</p>
 
-                        {petition.status === 'pending' && (
+                        {petition.status === 'Pending' && (
                             <>
                                 <button onClick={() => approvePetition(petition.id)}>Approve</button>
                                 <button onClick={() => rejectPetition(petition.id)}>Reject</button>

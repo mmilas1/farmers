@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import '../styles/FormStyles.css'
 
@@ -6,7 +6,21 @@ const PetitionFormComp = () => {
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     const [farmerId, setFarmerId] = useState('');
+    const [farmers, setFarmers] = useState([]); // State to hold the list of farmers
     const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        const fetchFarmers = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/farmers');
+                setFarmers(response.data);
+            } catch (error) {
+                console.error('Error fetching farmers', error);
+                setErrorMessage('Failed to load farmers.');
+            }
+        };
+        fetchFarmers();
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,7 +33,7 @@ const PetitionFormComp = () => {
 
         try {
             const credentials = { username: 'admin@example.com', password: 'adminpassword' };
-            
+
             await axios.post(
                 'http://localhost:8080/api/petitions',
                 { description, location, farmerId },
@@ -30,7 +44,7 @@ const PetitionFormComp = () => {
                     }
                 }
             );
-            
+
             alert('Petition submitted successfully!');
             // Clear form
             setDescription('');
@@ -56,8 +70,15 @@ const PetitionFormComp = () => {
                     <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
                 </label>
                 <label>
-                    Farmer ID:
-                    <input type="number" value={farmerId} onChange={(e) => setFarmerId(e.target.value)} />
+                    Farmer:
+                    <select value={farmerId} onChange={(e) => setFarmerId(e.target.value)}>
+                        <option value="">Select a farmer</option>
+                        {farmers.map((farmer) => (
+                            <option key={farmer.id} value={farmer.id}>
+                                {farmer.name} ({farmer.email})
+                            </option>
+                        ))}
+                    </select>
                 </label>
                 <button type="submit">Submit Petition</button>
             </form>
