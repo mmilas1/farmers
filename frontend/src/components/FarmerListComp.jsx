@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/FormStyles.css';
-import axios from "axios";
 
 const FarmerListComp = () => {
     const [farmers, setFarmers] = useState([]);
@@ -9,7 +8,7 @@ const FarmerListComp = () => {
     useEffect(() => {
         const fetchFarmers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/farmers');
+                const response = await api.get('/farmers');
                 setFarmers(response.data);
             } catch (error) {
                 console.error('Error fetching farmers', error);
