@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,5 +35,6 @@ public class Inspector {
     private Role role;
 
     @OneToMany(mappedBy = "inspector")
+    @JsonBackReference
     private List<Petition> petitions;
 }

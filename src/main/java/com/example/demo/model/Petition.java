@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,6 +36,7 @@ public class Petition {
 
     @ManyToOne
     @JoinColumn(name = "inspector_id")
+    @JsonManagedReference
     private Inspector inspector;
 
     public enum Status {
