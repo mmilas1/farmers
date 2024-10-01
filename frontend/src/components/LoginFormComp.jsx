@@ -8,6 +8,7 @@ const LoginFormComp = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -25,10 +26,6 @@ const LoginFormComp = () => {
         } catch (error) {
             console.error("Error logging in", error);
             alert("Login failed");
-        } finally {
-            // Clear input fields after login attempt
-            setEmail('');
-            setPassword('');
         }
     };
 
