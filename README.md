@@ -24,5 +24,6 @@ POSTMAN για να δημιουργήσετε έναν χρήστη με POST �
     "password" : "password"
 }
 και στην συνέχεια με τα ίδια στοιχεία να συνδεθείτε και στην εφαρμογή όπου μετά μπορείτε να φτιάξετε νέο χρήστη, να συμπληρώσετε ένα petition, να δημιουργήσετε έναν inspector και να κάνετε approve ή reject το petition ως inspector.
+Σημείωση: από λάθος δικό μας ο inspector πρέπει να έχει τα στοιχεία username: admin@example.com password: adminpassword 
 Καλή τύχη!
 
